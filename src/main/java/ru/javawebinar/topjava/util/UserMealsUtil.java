@@ -55,7 +55,8 @@ public class UserMealsUtil {
 
         Map<LocalDate, Integer> userCaloriesPerDay = new HashMap<>();
 
-        meals.forEach(userMeal -> userCaloriesPerDay.merge(userMeal.getDateTime().toLocalDate(),
+        meals.stream()
+                .peek(userMeal -> userCaloriesPerDay.merge(userMeal.getDateTime().toLocalDate(),
                         userMeal.getCalories(), Integer::sum));
 
         List<UserMealWithExcess> userMealWithExcesses = new ArrayList<>();

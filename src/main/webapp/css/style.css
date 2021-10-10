@@ -1,0 +1,22 @@
+header {
+    background: none repeat scroll 0 0 #A6C9E2;
+    color: #2E6E9E;
+    font-size: 20px;
+    padding: 5px 20px;
+    text-align: center;
+}
+
+h1 {
+    width: 10%;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    margin: auto;
+    color: #0C213B;
+}
+
+table {
+    border-collapse: collapse;
+    line-height: 1.1;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background: radial-gradient(farthest-corner at 50% 50%, white, #DCECF8);
+    color: #0C213B;
+}

@@ -31,14 +31,10 @@
             </c:if>
             <tr>
                 <td><p style="${color}">${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</p></td>
-                <td>
-                    <div style="${color}"><c:out value="${meal.description}"/></div>
-                </td>
-                <td>
-                    <div style="${color}"><c:out value="${meal.calories}"/></div>
-                </td>
-                    <%--                    <td><a href="meal?id=${meal.id}&action=delete"></a></td>--%>
-                    <%--                    <td><a href="meal?id=${meal.id}}&action=edit"></a></td>--%>
+                <td><div style="${color}"><c:out value="${meal.description}"/></div></td>
+                <td><div style="${color}"><c:out value="${meal.calories}"/></div></td>
+                <td><a href="meal?id=${meal.id}&action=delete"></a></td>
+                <td><a href="meal?id=${meal.id}}&action=edit"></a></td>
             </tr>
         </c:forEach>
         </tbody>

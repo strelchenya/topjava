@@ -26,8 +26,9 @@ public class MealsUtil {
 
     public final static int CALORIES_PER_DAY = 2000;
 
-    public final static LocalTime START_TIME = LocalTime.of(0, 0, 0, 0);
-    public final static LocalTime END_TIME = LocalTime.of(23, 59, 59, 999999);
+    //https://stackoverflow.com/questions/67998391/localtime-midnight-vs-localtime-min-is-there-any-difference
+    public final static LocalTime START_TIME = LocalTime.MIN;
+    public final static LocalTime END_TIME = LocalTime.MAX;
 
     public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()

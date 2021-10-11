@@ -12,9 +12,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class UserServlet extends HttpServlet {
 
-    private static String usersJsp = "users.jsp";
-
     private static final Logger log = getLogger(UserServlet.class);
+    private static final String usersJsp = "users.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -16,7 +16,6 @@ public class Meal {
 
     private int calories;
 
-
     public Meal(LocalDateTime dateTime, String description, int calories) {
         Objects.requireNonNull(description, "Description must not be null");
         this.id = UUID.randomUUID().toString();
@@ -76,5 +75,15 @@ public class Meal {
     @Override
     public int hashCode() {
         return Objects.hash(id, dateTime, description, calories);
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id='" + id + '\'' +
+                ", dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                '}';
     }
 }

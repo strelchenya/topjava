@@ -1,3 +1,8 @@
+section {
+    width: 900px;
+    margin: auto;
+}
+
 header {
     background: none repeat scroll 0 0 #A6C9E2;
     color: #2E6E9E;
@@ -7,7 +12,6 @@ header {
 }
 
 h1 {
-    /*width: 50%;*/
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     margin: auto;
     color: #0C213B;

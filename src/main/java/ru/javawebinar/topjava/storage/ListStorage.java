@@ -40,30 +40,24 @@ public class ListStorage implements Storage {
     @Override
     public void delete(String id) {
         if (getSearchKey(id) != -1) {
-        mealsStorage.remove(getSearchKey(id).intValue());
+            mealsStorage.remove(getSearchKey(id).intValue());
         } else {
-            throw new NullPointerException("Шеф, всё пропало!");
+            throw new NullPointerException("Шеф, всё пропало! Нет такого id");
         }
     }
 
     @Override
     public void update(Meal meal) {
-        if (getSearchKey(meal.getId()) != -1) {
         mealsStorage.set(getSearchKey(meal.getId()), meal);
-        }
     }
 
     @Override
     public List<MealTo> getAll() {
-        return MealsUtil.filteredByStreams(mealsStorage, MealsUtil.START_TIME,
-                MealsUtil.END_TIME, MealsUtil.CALORIES_PER_DAY);
+        return MealsUtil.filteredByStreams(mealsStorage, MealsUtil.START_TIME, MealsUtil.END_TIME, MealsUtil.CALORIES_PER_DAY);
     }
 
     @Override
     public Meal get(String id) {
-        if (getSearchKey(id) != -1) {
-            return mealsStorage.get(getSearchKey(id));
-        }
-        return null;
+        return mealsStorage.get(getSearchKey(id));
     }
 }

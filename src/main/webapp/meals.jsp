@@ -12,7 +12,8 @@
 <jsp:include page="header.jsp"/>
 <h1>Meals</h1>
 <br>
-<p><a href="meals?action=insert">Add meal</a></p>
+<div style='text-align:center;'><a class="a_1" href="meals?action=add">Add meal</a></div>
+<br>
 <section>
     <table border="2" cellpadding="8" cellspacing="0" style="margin: auto">
         <tbody>
@@ -20,7 +21,7 @@
             <th>Date</th>
             <th>Description</th>
             <th>Calories</th>
-            <th>Update</th>
+            <th>Edit</th>
             <th>Delete</th>
         </tr>
         <jsp:useBean id="meals" scope="request" type="java.util.List"/>

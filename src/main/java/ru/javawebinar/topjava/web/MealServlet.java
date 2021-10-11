@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 public class MealServlet extends HttpServlet {
 
@@ -20,7 +18,7 @@ public class MealServlet extends HttpServlet {
 
     private static final String ADD_OR_EDIT = "/create.jsp";
 
-    private Storage storage;
+    private final Storage storage;
 
     public MealServlet() {
         super();
@@ -40,7 +38,6 @@ public class MealServlet extends HttpServlet {
         }
 
         if (action.equalsIgnoreCase("delete")) {
-            forward = ALL_MEALS_TO;
 
             String id = request.getParameter("id");
 
@@ -54,14 +51,14 @@ public class MealServlet extends HttpServlet {
 
             String id = request.getParameter("id");
 
-            Meal meal = storage.get(id);
+            Meal mealEdit = storage.get(id);
 
-            request.setAttribute("meal1", meal); // переименовать поле наме!
-        } else if (action.equalsIgnoreCase("listMeals")) {
+            request.setAttribute("mealEdit", mealEdit);
+        } /*else if (action.equalsIgnoreCase("return")) {
             forward = ALL_MEALS_TO;
 
             request.setAttribute("meals", storage.getAll());
-        } else {
+        }*/ else {
             forward = ADD_OR_EDIT;
         }
 
@@ -71,8 +68,10 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("datetime"), formatter); //bob вместо datetime
+
+        request.setCharacterEncoding("UTF-8");
+
+        LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("datetime"));
 
         String description = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
@@ -84,7 +83,7 @@ public class MealServlet extends HttpServlet {
         if (id == null || id.isEmpty()) {
             storage.add(meal);
         } else {
-            meal.setId(UUID.randomUUID().toString());
+            meal.setId(id);
             storage.update(meal);
         }
 
@@ -92,5 +91,4 @@ public class MealServlet extends HttpServlet {
         request.setAttribute("meals", storage.getAll());
         requestDispatcher.forward(request, response);
     }
-
 }

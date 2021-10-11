@@ -16,8 +16,4 @@ public interface Storage {
     List<MealTo> getAll();
 
     Meal get(String id);
-
-//    void clear();
-    
-//    int size();
 }

@@ -11,6 +11,8 @@
 <body>
 <jsp:include page="header.jsp"/>
 <h1>Meals</h1>
+<br>
+<p><a href="meals?action=insert">Add meal</a></p>
 <section>
     <table border="2" cellpadding="8" cellspacing="0" style="margin: auto">
         <tbody>
@@ -33,8 +35,8 @@
                 <td><p style="${color}">${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</p></td>
                 <td><div style="${color}"><c:out value="${meal.description}"/></div></td>
                 <td><div style="${color}"><c:out value="${meal.calories}"/></div></td>
-                <td><a href="meal?id=${meal.id}&action=delete"></a></td>
-                <td><a href="meal?id=${meal.id}}&action=edit"></a></td>
+                <td><a href="meals?id=${meal.id}&action=edit">Edit</a></td>
+                <td><a href="meals?id=${meal.id}&action=delete">Delete</a></td>
             </tr>
         </c:forEach>
         </tbody>

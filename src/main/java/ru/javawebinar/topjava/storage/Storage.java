@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.storage;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.MealTo;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface Storage {
 
     void update(Meal meal);
 
-    List<Meal> getAll();
+    List<MealTo> getAll();
 
     Meal get(String id);
 

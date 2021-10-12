@@ -3,12 +3,10 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Objects;
-import java.util.UUID;
 
 public class Meal {
 
-    private String id;
+    private Integer id;
 
     private LocalDateTime dateTime;
 
@@ -17,8 +15,13 @@ public class Meal {
     private int calories;
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
-        Objects.requireNonNull(description, "Description must not be null");
-        this.id = UUID.randomUUID().toString();
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = calories;
+    }
+
+    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
@@ -48,11 +51,11 @@ public class Meal {
         this.calories = calories;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -62,28 +65,5 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Meal meal = (Meal) o;
-        return calories == meal.calories && Objects.equals(id, meal.id) && Objects.equals(dateTime, meal.dateTime) && Objects.equals(description, meal.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, dateTime, description, calories);
-    }
-
-    @Override
-    public String toString() {
-        return "Meal{" +
-                "id='" + id + '\'' +
-                ", dateTime=" + dateTime +
-                ", description='" + description + '\'' +
-                ", calories=" + calories +
-                '}';
     }
 }

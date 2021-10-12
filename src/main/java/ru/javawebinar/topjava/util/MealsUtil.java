@@ -11,11 +11,10 @@ import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public final static int CALORIES_PER_DAY = 2000;
+    public static final int CALORIES_PER_DAY = 2000;
 
-    //https://stackoverflow.com/questions/67998391/localtime-midnight-vs-localtime-min-is-there-any-difference
-    public final static LocalTime START_TIME = LocalTime.MIN;
-    public final static LocalTime END_TIME = LocalTime.MAX;
+    public static final LocalTime START_TIME = LocalTime.MIN;
+    public static final LocalTime END_TIME = LocalTime.MAX;
 
     public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()

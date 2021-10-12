@@ -10,7 +10,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<c:if test="${param['action'] eq 'add'}">
+<c:if test="${param['action'].toLowerCase() eq 'add'}">
     <h1>Add new meal</h1>
     <jsp:useBean id="now" class="java.util.Date"/>
     <fmt:formatDate value="${now}" pattern="yyyy-MM-dd'T'HH:mm" var="parseNow"/>
@@ -18,9 +18,9 @@
     <c:set var="addDescription" value=""/>
     <c:set var="addCalories" value="0"/>
 </c:if>
-<c:if test="${param['action'] eq 'edit'}">
+<c:if test="${param['action'].toLowerCase() eq 'edit'}">
     <h1>Edit meal</h1>
-    <jsp:useBean id="mealEdit" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
+    <jsp:useBean id="mealEdit" scope="request" type="ru.javawebinar.topjava.model.MealTo"/>
     <c:set var="addDate" value="${mealEdit.dateTime}"/>
     <c:set var="addDescription" value="${mealEdit.description}"/>
     <c:set var="addCalories" value="${mealEdit.calories}"/>
@@ -45,7 +45,7 @@
         <div class="field">
             <label for="cal">Calories:</label>
             <input type="number" id="cal" name="calories" value="${addCalories}"
-                   step="1" min="1" max="2147483647" size="21">
+                   step="1" min="1" max="2147483647" size="21" required>
             <span class="validity"></span>
         </div>
         <div class="field">

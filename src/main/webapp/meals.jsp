@@ -24,19 +24,14 @@
         </tr>
         <jsp:useBean id="meals" scope="request" type="java.util.List"/>
         <c:forEach var="meal" items="${meals}">
-            <c:if test="${!meal.excess}">
-                <c:set var="color" value="color:#196c25"/>
-            </c:if>
-            <c:if test="${meal.excess}">
-                <c:set var="color" value="color:#ce0d0d"/>
-            </c:if>
-            <tr>
-                <td><p style="${color}">${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</p></td>
+            <c:set var="color" value="${meal.excess ? 'color:#ce0d0d':'color:#196c25'}"/>
+            <tr style="${color}">
+                <td><div>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</div></td>
                 <td>
-                    <div style="${color}"><c:out value="${meal.description}"/></div>
+                    <div>${meal.description}</div>
                 </td>
                 <td>
-                    <div style="${color}"><c:out value="${meal.calories}"/></div>
+                    <div>${meal.calories}</div>
                 </td>
                 <td><a href="meals?id=${meal.id}&action=edit">Edit</a></td>
                 <td><a href="meals?id=${meal.id}&action=delete">Delete</a></td>

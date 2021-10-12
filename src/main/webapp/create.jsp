@@ -27,23 +27,33 @@
 </c:if>
 <br>
 <form method="POST" action='meals' name="addOrEditMael" enctype="application/x-www-form-urlencoded">
-
-    DateTime : <input type="datetime-local" id="datetime"
-                      name="datetime" value="${addDate}"
-                      min="2000-06-07T00:00" max="2050-06-14T00:00"
-                      pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required>
-    <span class="validity"></span></br>
-
-    Description : <input type="text" name="description" value="${addDescription}"
-                         placeholder="breakfast, lunch, dinner..." minlength="3" maxlength="20" required>
-    <span class="validity"></span></br>
-
-    Calories : <input type="number" name="calories" value="${addCalories}" step="1" min="1" max="2147483647">
-    <span class="validity"></span></br>
-    <br>
-    <input type="hidden" name="id" value="${param['id']}"/>
-    <button type="submit">Save</button>
-    <input type="button" onclick="history.back();" value="Cancel"/>
+    <div class="main">
+        <div class="field">
+            <label for="datetime">DateTime:</label>
+            <input type="datetime-local" id="datetime"
+                   name="datetime" value="${addDate}"
+                   min="2000-06-07T00:00" max="2050-06-14T00:00"
+                   pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required>
+            <span class="validity"></span>
+        </div>
+        <div class="field">
+            <label for="des">Description:</label>
+            <input type="text" id="des" name="description" value="${addDescription}"
+                   placeholder="breakfast, lunch, dinner..." minlength="3" maxlength="20" size="21" required>
+            <span class="validity"></span>
+        </div>
+        <div class="field">
+            <label for="cal">Calories:</label>
+            <input type="number" id="cal" name="calories" value="${addCalories}"
+                   step="1" min="1" max="2147483647" size="21">
+            <span class="validity"></span>
+        </div>
+        <div class="field">
+            <input type="hidden" name="id" value="${param['id']}"/>
+            <button type="submit">Save</button>
+            <input type="button" onclick="history.back();" value="Cancel"/>
+        </div>
+    </div>
 </form>
 </body>
 </html>

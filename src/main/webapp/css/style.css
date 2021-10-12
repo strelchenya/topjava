@@ -1,6 +1,5 @@
-section {
-    width: 900px;
-    margin: auto;
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 header {
@@ -8,20 +7,39 @@ header {
     color: #2E6E9E;
     font-size: 20px;
     padding: 5px 20px;
-    text-align: center;
+    text-align: left;
 }
 
 h1 {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     margin: auto;
     color: #0C213B;
-    text-align: center;
+    text-align: left;
 }
 
 table {
     border-collapse: collapse;
     line-height: 1.1;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     background: radial-gradient(farthest-corner at 50% 50%, white, #DCECF8);
     color: #0C213B;
+}
+
+.field {
+    clear: both;
+    text-align: right;
+    line-height: 25px;
+}
+
+label {
+    float: left;
+    padding-right: 10px;
+    margin-bottom: 5px;
+
+}
+
+.main {
+    float: left
+}
+
+input[type=number] {
+    width: 177px;
 }

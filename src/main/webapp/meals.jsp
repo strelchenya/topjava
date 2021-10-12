@@ -12,10 +12,8 @@
 <jsp:include page="header.jsp"/>
 <h1>Meals</h1>
 <br>
-<div style='text-align:center;'><a class="a_1" href="meals?action=add">Add meal</a></div>
-<br>
 <section>
-    <table border="2" cellpadding="8" cellspacing="0" style="margin: auto">
+    <table border="2" cellpadding="8" cellspacing="0">
         <tbody>
         <tr>
             <th>Date</th>
@@ -34,14 +32,20 @@
             </c:if>
             <tr>
                 <td><p style="${color}">${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</p></td>
-                <td><div style="${color}"><c:out value="${meal.description}"/></div></td>
-                <td><div style="${color}"><c:out value="${meal.calories}"/></div></td>
+                <td>
+                    <div style="${color}"><c:out value="${meal.description}"/></div>
+                </td>
+                <td>
+                    <div style="${color}"><c:out value="${meal.calories}"/></div>
+                </td>
                 <td><a href="meals?id=${meal.id}&action=edit">Edit</a></td>
                 <td><a href="meals?id=${meal.id}&action=delete">Delete</a></td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <br>
+    <div style='text-align:left;'><a class="a_1" href="meals?action=add">Add meal</a></div>
 </section>
 </body>
 </html>

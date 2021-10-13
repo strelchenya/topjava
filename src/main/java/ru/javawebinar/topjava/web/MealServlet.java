@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
-import ru.javawebinar.topjava.storage.MapMealStorage;
+import ru.javawebinar.topjava.storage.MealStorageMemory;
 import ru.javawebinar.topjava.storage.MealStorage;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class MealServlet extends HttpServlet {
 
@@ -23,8 +24,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        super.init();
-        this.mealStorage = new MapMealStorage();
+        this.mealStorage = new MealStorageMemory();
     }
 
     @Override
@@ -35,8 +35,8 @@ public class MealServlet extends HttpServlet {
         if (action == null) {
             forward = allMealsTo;
             request.setAttribute("meals",
-                    MealsUtil.filteredByStreams(mealStorage.getAll(), MealsUtil.START_TIME,
-                            MealsUtil.END_TIME, MealsUtil.CALORIES_PER_DAY));
+                    MealsUtil.filteredByStreams(mealStorage.getAll(), LocalTime.MIN,
+                            LocalTime.MAX, MealsUtil.CALORIES_PER_DAY));
             request.getRequestDispatcher(forward).forward(request, response);
             return;
         } else {
@@ -64,25 +64,6 @@ public class MealServlet extends HttpServlet {
                 response.sendRedirect("meals");
                 return;
         }
-
-        /*if (action.equalsIgnoreCase("delete")) {
-            Integer id = Integer.parseInt(request.getParameter("id"));
-            mealStorage.delete(id);
-            response.sendRedirect("meals");
-            return;
-        } else if (action.equalsIgnoreCase("edit")) {
-            forward = addOrEdit;
-            Integer idMeal = Integer.parseInt(request.getParameter("id"));
-            Meal meal = mealStorage.get(idMeal);
-            MealTo mealTo = new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription(),
-                    meal.getCalories(), false);
-            request.setAttribute("mealEdit", mealTo);
-        } else if (action.equalsIgnoreCase("add")) {
-            forward = addOrEdit;
-        } else {
-            response.sendRedirect("meals");
-            return;
-        }*/
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(forward);
         requestDispatcher.forward(request, response);

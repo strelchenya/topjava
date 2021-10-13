@@ -3,8 +3,7 @@
 <%@ taglib uri="http://example.com/functions" prefix="f" %>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <jsp:include page="head.jsp"/>
     <title>Meals</title>
 </head>
 <body>
@@ -25,7 +24,9 @@
         <c:forEach var="meal" items="${meals}">
             <c:set var="color" value="${meal.excess ? 'color:#ce0d0d':'color:#196c25'}"/>
             <tr style="${color}">
-                <td><div>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</div></td>
+                <td>
+                    <div>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</div>
+                </td>
                 <td>
                     <div>${meal.description}</div>
                 </td>

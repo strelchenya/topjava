@@ -11,7 +11,7 @@ public class Meal {
     private int calories;
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
-        this(0,dateTime,description,calories);
+        this(0, dateTime, description, calories);
     }
 
     public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
@@ -59,10 +59,6 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    public Meal(Integer id) {
-        this.id = id;
     }
 
     @Override

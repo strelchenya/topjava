@@ -29,8 +29,7 @@ public class MealStorageMemory implements MealStorage {
     @Override
     public Meal add(Meal meal) {
         meal.setId(count.incrementAndGet());
-        mealsStorage.put(meal.getId(), meal);
-        return mealsStorage.get(meal.getId());
+        return mealsStorage.put(meal.getId(), meal);
     }
 
     @Override
@@ -41,10 +40,9 @@ public class MealStorageMemory implements MealStorage {
     @Override
     public Meal update(Meal meal) {
         if (meal.getId() > count.get() || meal.getId() < 1) {
-            meal.setId(count.incrementAndGet());
+            return null;
         }
-        mealsStorage.put(meal.getId(), meal);
-        return mealsStorage.get(meal.getId());
+        return mealsStorage.put(meal.getId(), meal);
     }
 
     @Override

@@ -27,18 +27,14 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(int userId, Meal meal) {
-        List<Meal> newMeals = new ArrayList<>();
-
         if (meal.isNew()) {
+            List<Meal> newMeals = new ArrayList<>();
             meal.setId(counter.incrementAndGet());
-            //+ -> -- add new list
-            if (!repository.containsKey(userId)) {
-                newMeals.add(meal);
-                //+ -> -+ add
-            } else {
+            //+ -> -+ add
+            if (repository.containsKey(userId)) {
                 newMeals = repository.get(userId);
-                newMeals.add(meal);
-            }
+            } //+ -> -- add new list
+            newMeals.add(meal);
             repository.put(userId, newMeals);
         } else {
             //- -> ++ update

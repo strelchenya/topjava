@@ -26,19 +26,19 @@
     <form method="get" action="meals?action=filter">
         <dl>
             <dt>From Date:</dt>
-            <dd><input type="date" name="startDate"></dd>
+            <dd><input type="date" value="${param['startDate']}" name="startDate"></dd>
         </dl>
         <dl>
             <dt>To Date:</dt>
-            <dd><input type="date" name="endDate"></dd>
+            <dd><input type="date" value="${param['endDate']}" name="endDate"></dd>
         </dl>
         <dl>
             <dt>From Time:</dt>
-            <dd><input type="time" name="startTime"></dd>
+            <dd><input type="time" value="${param['startTime']}" name="startTime"></dd>
         </dl>
         <dl>
             <dt>To Time:</dt>
-            <dd><input type="time" name="endTime"></dd>
+            <dd><input type="time" value="${param['endTime']}" name="endTime"></dd>
         </dl>
         <button type="submit">Filter</button>
     </form>

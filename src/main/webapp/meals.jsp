@@ -1,3 +1,4 @@
+<%@ page import="ru.javawebinar.topjava.web.SecurityUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -47,7 +48,7 @@
         <thead>
         <tr>
             <th>Date</th>
-            <th>Description</th>
+            <th>Description: <%=SecurityUtil.authUserId() == 1 ? "Admin" : "User"%></th>
             <th>Calories</th>
             <th></th>
             <th></th>

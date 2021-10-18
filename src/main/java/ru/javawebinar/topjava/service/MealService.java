@@ -18,14 +18,18 @@ import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
 @Service
 public class MealService {
 
-    private MealRepository repository;
+    private final MealRepository repository;
 
     public MealService(MealRepository repository) {
         this.repository = repository;
     }
 
     public Meal create(int userId, Meal meal) {
-        return checkNotFoundWithId(repository.save(userId, meal), meal.getId());
+        return repository.save(userId, meal);
+    }
+
+    public void update(int userId, Meal meal) {
+        checkNotFoundWithId(repository.update(userId, meal.getId(), meal), meal.getId());
     }
 
     public void delete(int userId, int id) {
@@ -40,8 +44,9 @@ public class MealService {
         return getTos(repository.getAll(userId), authUserCaloriesPerDay());
     }
 
-    public List<MealTo> getBetween(int userId, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        return getFilteredTos(repository.getBetween(userId, startDate.atStartOfDay(), LocalDateTime.of(endDate, LocalTime.MAX)),
-                authUserCaloriesPerDay(), startTime, endTime);
+    public List<MealTo> getBetween(int userId, LocalDate startDate, LocalTime startTime,
+                                   LocalDate endDate, LocalTime endTime, int caloriesPerDay) {
+        return getFilteredTos(repository.getBetween(userId, startDate.atStartOfDay(),
+                LocalDateTime.of(endDate, LocalTime.MAX)), caloriesPerDay, startTime, endTime);
     }
 }

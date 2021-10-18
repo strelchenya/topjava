@@ -23,7 +23,7 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
-    <form method="post" action="meals?action=filter">
+    <form method="get" action="meals?action=filter">
         <dl>
             <dt>From Date:</dt>
             <dd><input type="date" name="startDate"></dd>

@@ -6,11 +6,17 @@ import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealTo;
-import ru.javawebinar.topjava.web.SecurityUtil;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
+import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
+import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
 @Controller
 public class MealRestController {
@@ -24,34 +30,50 @@ public class MealRestController {
     }
 
     public Meal create(Meal meal) {
-        int userId = SecurityUtil.authUserId();
-        log.info("user id {}, create {}", userId, meal);
+        int userId = authUserId();
+        log.error("user id {}, create {}", userId, meal);
 //        checkNew(meal);
         return service.create(userId, meal);
     }
 
+    public void update(Meal meal, int id) {
+        log.error("update {} with id={}", meal, id);
+        assureIdConsistent(meal, id);
+        int userId = authUserId();
+        service.update(userId, meal);
+    }
+
     public void delete(int id) {
-        int userId = SecurityUtil.authUserId();
-        log.info("user id {}, delete {}", userId, id);
+        int userId = authUserId();
+        log.error("user id {}, delete {}", userId, id);
         service.delete(userId, id);
     }
 
     public Meal get(int id) {
-        int userId = SecurityUtil.authUserId();
-        log.info("user id {}, get {}", userId, id);
+        int userId = authUserId();
+        log.error("user id {}, get {}", userId, id);
         return service.get(userId, id);
     }
 
     public List<MealTo> getAll() {
-        int userId = SecurityUtil.authUserId();
-        log.info("getAll collection MealTo - user id: {}", userId);
-        return service.getAll(userId);
+        int userId = authUserId();
+        log.error("getAll collection MealTo - user id: {}", userId);
+        return service.getAll(userId).stream()
+                .sorted(Comparator.comparing(MealTo::getDateTime).reversed())
+                .collect(Collectors.toList());
     }
 
-    public List<MealTo> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        int userId = SecurityUtil.authUserId();
-        log.info("get between date: {} and {}, time: {} and {}. User id: {}",
+    public List<MealTo> getBetween(String startDate, String startTime, String endDate, String endTime) {
+        int userId = authUserId();
+        LocalDate startLocalDate = DateTimeUtil.parseLocalDateOrDefault(startDate, DateTimeUtil.MIN_DATE);
+        LocalDate endLocalDate = DateTimeUtil.parseLocalDateOrDefault(endDate, DateTimeUtil.MAX_DATE);
+        LocalTime startLocalTime = DateTimeUtil.parseLocalTimeOrDefault(startTime, LocalTime.MIN);
+        LocalTime endLocalTime = DateTimeUtil.parseLocalTimeOrDefault(endTime, LocalTime.MAX);
+        log.error("get between date: {} and {}, time: {} and {}. User id: {}",
                 startDate, endDate, startTime, endTime, userId);
-        return service.getBetween(userId, startDate, startTime, endDate, endTime);
+        return service.getBetween(userId, startLocalDate, startLocalTime,
+                        endLocalDate, endLocalTime, authUserCaloriesPerDay()).stream()
+                .sorted(Comparator.comparing(MealTo::getDateTime).reversed())
+                .collect(Collectors.toList());
     }
 }

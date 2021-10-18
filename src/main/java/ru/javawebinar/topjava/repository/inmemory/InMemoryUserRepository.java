@@ -55,6 +55,6 @@ public class InMemoryUserRepository implements UserRepository {
         log.info("getByEmail {}", email);
         //https://www.baeldung.com/java-optional-or-else-vs-or-else-get
         return repository.values().stream()
-                .filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
+                .filter(user -> user.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
     }
 }

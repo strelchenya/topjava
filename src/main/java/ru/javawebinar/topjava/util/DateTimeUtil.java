@@ -12,8 +12,8 @@ public class DateTimeUtil {
     public static final LocalDate MIN_DATE = LocalDate.of(0, 1, 1);
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public static <T extends Comparable> boolean isBetweenHalfOpen(T lt, T startTime, T endTime) {
-        return lt.compareTo(startTime) >= 0 && lt.compareTo(endTime) < 0;
+    public static <T extends Comparable> boolean isBetweenHalfOpen(T lt, T starDateTime, T endDateTime) {
+        return lt.compareTo(starDateTime) >= 0 && lt.compareTo(endDateTime) < 0;
     }
 
     //https://stackoverflow.com/questions/23419087/stringutils-isblank-vs-string-isempty

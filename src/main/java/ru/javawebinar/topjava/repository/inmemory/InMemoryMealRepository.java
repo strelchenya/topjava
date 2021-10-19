@@ -27,45 +27,50 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(int userId, Meal meal) {
-        Map<Integer, Meal> userMeals;
+        if (repository.get(userId) == null) {
+            repository.put(userId, new ConcurrentHashMap<>());
+        }
+
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            userMeals = repository.computeIfAbsent(userId, ConcurrentHashMap::new);
-            return userMeals.put(meal.getId(), meal);
-        } else if (get(userId, meal.getId()) == null) {
-            return null;
         }
-        return meal;
-    }
-
-    @Override
-    public Meal update(int userId, int id, Meal meal) {
-        if (get(userId, id) == null) {
-            return null;
-        }
-        Map<Integer, Meal> userMeals = repository.computeIfPresent(userId, (key, value) -> value);
-        return Objects.requireNonNull(userMeals).put(id, meal);
+        return repository.get(userId).put(meal.getId(), meal);
     }
 
     @Override
     public boolean delete(int userId, int id) {
+        if (repository.get(userId) == null) {
+            return false;
+        }
         return repository.get(userId).remove(id) != null;
     }
 
     @Override
     public Meal get(int userId, int id) {
-        return Optional.of(repository.get(userId).get(id)).orElse(null);
+        if (repository.get(userId) == null /*|| repository.get(userId).get(id) == null*/) {
+            return null;
+        }
+        return repository.get(userId).get(id);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return new ArrayList<>(Optional.of(repository.get(userId).values()).orElse(Collections.emptyList()));
+        if (repository.get(userId) == null) {
+            return Collections.emptyList();
+        }
+        return Optional.of(repository.get(userId).values()).orElse(Collections.emptyList()).stream()
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Meal> getBetween(int userId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return getAll(userId).stream()
+        if (repository.get(userId) == null) {
+            return Collections.emptyList();
+        }
+        return Optional.of(repository.get(userId).values()).orElse(Collections.emptyList()).stream()
                 .filter(meal -> DateTimeUtil.isBetweenHalfOpen(meal.getDateTime(), startDateTime, endDateTime))
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
 }

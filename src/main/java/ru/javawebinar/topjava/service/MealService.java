@@ -29,7 +29,7 @@ public class MealService {
     }
 
     public void update(int userId, Meal meal) {
-        checkNotFoundWithId(repository.update(userId, meal.getId(), meal), meal.getId());
+        checkNotFoundWithId(repository.save(userId, meal), meal.getId());
     }
 
     public void delete(int userId, int id) {

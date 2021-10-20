@@ -12,11 +12,11 @@ public class DateTimeUtil {
     public static final LocalDate MIN_DATE = LocalDate.of(0, 1, 1);
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public static <T extends Comparable> boolean isBetweenHalfOpen(T lt, T starDateTime, T endDateTime) {
+    public static <T extends Comparable<T>> boolean isBetweenHalfOpenDateTimeOrTime(
+            T lt, T starDateTime, T endDateTime) {
         return lt.compareTo(starDateTime) >= 0 && lt.compareTo(endDateTime) < 0;
     }
 
-    //https://stackoverflow.com/questions/23419087/stringutils-isblank-vs-string-isempty
     public static LocalDate parseLocalDateOrDefault(String dateString, LocalDate localDate) {
         return StringUtils.isEmpty(dateString) ? localDate : LocalDate.parse(dateString);
     }

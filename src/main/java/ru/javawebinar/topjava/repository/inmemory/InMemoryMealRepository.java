@@ -27,49 +27,50 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(int userId, Meal meal) {
-        if (repository.get(userId) == null) {
-            repository.put(userId, new ConcurrentHashMap<>());
-        }
-
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
         }
-        return repository.get(userId).put(meal.getId(), meal);
+        return repository.computeIfAbsent(userId, k -> new ConcurrentHashMap<>()).put(meal.getId(), meal);
     }
 
     @Override
     public boolean delete(int userId, int id) {
-        if (repository.get(userId) == null) {
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        if (userMeals == null) {
             return false;
         }
-        return repository.get(userId).remove(id) != null;
+        return userMeals.remove(id) != null;
     }
 
     @Override
     public Meal get(int userId, int id) {
-        if (repository.get(userId) == null /*|| repository.get(userId).get(id) == null*/) {
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        if (userMeals == null) {
             return null;
         }
-        return repository.get(userId).get(id);
+        return userMeals.get(id);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        if (repository.get(userId) == null) {
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        if (userMeals == null) {
             return Collections.emptyList();
         }
-        return Optional.of(repository.get(userId).values()).orElse(Collections.emptyList()).stream()
+        return Optional.of(userMeals.values()).orElse(Collections.emptyList()).stream()
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Meal> getBetween(int userId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        if (repository.get(userId) == null) {
+        Map<Integer, Meal> userMeals = repository.get(userId);
+        if (userMeals == null) {
             return Collections.emptyList();
         }
-        return Optional.of(repository.get(userId).values()).orElse(Collections.emptyList()).stream()
-                .filter(meal -> DateTimeUtil.isBetweenHalfOpen(meal.getDateTime(), startDateTime, endDateTime))
+        return Optional.of(userMeals.values()).orElse(Collections.emptyList()).stream()
+                .filter(meal ->
+                        DateTimeUtil.isBetweenHalfOpenDateTimeOrTime(meal.getDateTime(), startDateTime, endDateTime))
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }

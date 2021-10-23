@@ -16,6 +16,7 @@ CREATE TABLE users
     enabled          BOOL                DEFAULT TRUE  NOT NULL,
     calories_per_day INTEGER             DEFAULT 2000  NOT NULL
 );
+
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE user_roles
@@ -28,14 +29,12 @@ CREATE TABLE user_roles
 
 CREATE TABLE meals
 (
+    id          BIGSERIAL NOT NULL PRIMARY KEY,
     user_id     INTEGER   NOT NULL,
     date_time   TIMESTAMP NOT NULL,
     description VARCHAR   NOT NULL,
     calories    INTEGER   NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-
-ALTER TABLE meals
-    ADD COLUMN id BIGSERIAL PRIMARY KEY;
 
 CREATE UNIQUE INDEX meals_id_index ON meals (date_time);

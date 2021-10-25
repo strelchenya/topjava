@@ -10,11 +10,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.Util;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class JdbcMealRepository implements MealRepository {
@@ -24,11 +22,11 @@ public class JdbcMealRepository implements MealRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final SimpleJdbcInsert insertUser;
+    private final SimpleJdbcInsert insertMeal;
 
     @Autowired
     public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.insertUser = new SimpleJdbcInsert(jdbcTemplate)
+        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
 
@@ -46,7 +44,7 @@ public class JdbcMealRepository implements MealRepository {
                 .addValue("calories", meal.getCalories());
 
         if (meal.isNew()) {
-            Number newKey = insertUser.executeAndReturnKey(map);
+            Number newKey = insertMeal.executeAndReturnKey(map);
             meal.setId(newKey.intValue());
         } else if (namedParameterJdbcTemplate.update(
                 "UPDATE meals SET user_id=:userId, date_time=:dateTime, description=:description, calories=:calories " +
@@ -74,9 +72,8 @@ public class JdbcMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        List<Meal> meals = getAll(userId);
-        return meals.stream()
-                .filter(meal -> Util.isBetweenHalfOpen(meal.getDateTime(), startDateTime, endDateTime))
-                .collect(Collectors.toList());
+        return jdbcTemplate.query("SELECT * FROM meals " +
+                "WHERE user_id=? AND date_time >= ? AND date_time < ? " +
+                "ORDER BY date_time DESC", ROW_MAPPER, userId, startDateTime, endDateTime);
     }
 }

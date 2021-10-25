@@ -1,10 +1,10 @@
-DELETE
-FROM user_roles;
-DELETE
-FROM meals;
-DELETE
-FROM users;
+DELETE FROM user_roles;
+DELETE FROM meals;
+DELETE FROM users;
+
 ALTER SEQUENCE global_seq RESTART WITH 100000;
+
+ALTER SEQUENCE meals_id_seq RESTART WITH 1;
 
 INSERT INTO users (name, email, password)
 VALUES ('User', 'user@yandex.ru', 'password'),
@@ -14,7 +14,24 @@ INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100000),
        ('ADMIN', 100001);
 
-insert into meals (user_id, date_time, description, calories) values (100001, '2020-12-19 10:07:04', 'Breakfast', 416);
+INSERT INTO meals(user_id, date_time, description, calories)
+VALUES (100000, '2020-01-30 10:00:00', 'Завтрак', 500),
+       (100000, '2020-01-30 13:00:00', 'Обед', 1000),
+       (100000, '2020-01-30 20:00:00', 'Ужин', 500),
+       (100000, '2020-01-31 00:00:00', 'Еда на граничное значение', 100),
+       (100000, '2020-01-31 10:00:00', 'Завтрак', 1000),
+       (100000, '2020-01-31 13:00:00', 'Обед', 500),
+       (100000, '2020-01-31 20:00:00', 'Ужин', 410);
+
+       /*(100001, '2020-01-30 10:00:00', 'Завтрак', 500),
+       (100001, '2020-01-30 13:00:00', 'Обед', 1000),
+       (100001, '2020-01-30 20:00:00', 'Ужин', 500),
+       (100001, '2020-01-31 00:00:00', 'Еда на граничное значение', 100),
+       (100001, '2020-01-31 10:00:00', 'Завтрак', 1000),
+       (100001, '2020-01-31 13:00:00', 'Обед', 500),
+       (100001, '2020-01-31 20:00:00', 'Ужин', 410);*/
+
+/*insert into meals (user_id, date_time, description, calories) values (100001, '2020-12-19 10:07:04', 'Breakfast', 416);
 insert into meals (user_id, date_time, description, calories) values (100001, '2021-07-11 06:51:10', 'Breakfast', 2128);
 insert into meals (user_id, date_time, description, calories) values (100000, '2020-11-12 05:31:33', 'Afternoon snack', 1084);
 insert into meals (user_id, date_time, description, calories) values (100000, '2021-04-15 07:37:50', 'Afternoon snack', 1907);
@@ -1013,4 +1030,4 @@ insert into meals (user_id, date_time, description, calories) values (100000, '2
 insert into meals (user_id, date_time, description, calories) values (100000, '2020-12-09 11:09:47', 'Dinner', 1861);
 insert into meals (user_id, date_time, description, calories) values (100000, '2021-09-29 03:06:58', 'Lunch', 2279);
 insert into meals (user_id, date_time, description, calories) values (100000, '2021-10-17 19:26:00', 'Dinner', 1618);
-insert into meals (user_id, date_time, description, calories) values (100000, '2021-08-20 23:25:15', 'Breakfast', 2190);
+insert into meals (user_id, date_time, description, calories) values (100000, '2021-08-20 23:25:15', 'Breakfast', 2190);*/

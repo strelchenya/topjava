@@ -1,56 +1,56 @@
 package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.util.Util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 public class MealTestData {
-
-    public static final LocalDateTime startDateTime = LocalDateTime.of(2020, 1, 30, 9, 0);
-    public static final LocalDateTime endDateTime = LocalDateTime.of(2020, 1, 30, 23, 0);
-    public static final Meal meal1 = new Meal(1, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500);
-    public static final Meal meal2 = new Meal(2, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000);
-    public static final Meal meal3 = new Meal(3, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500);
-    public static final Meal meal4 =
-            new Meal(4, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100);
-    public static final Meal meal5 = new Meal(5, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000);
-    public static final Meal meal6 = new Meal(6, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500);
-    public static final Meal meal7 = new Meal(7, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410);
+    public static final LocalDate START_DATE_TIME = LocalDate.of(2020, 1, 30);
+    public static final LocalDate END_DATE_TIME = LocalDate.of(2020, 1, 31);
+    public static final int MEAL_USER_ID = START_SEQ;
+    public static final int MEAL_ADMIN_ID = START_SEQ + 1;
+    public static final int MEAL_ID_1 = START_SEQ + 2;
+    public static final int MEAL_ID_2 = START_SEQ + 3;
+    public static final int MEAL_ID_3 = START_SEQ + 4;
+    public static final int MEAL_ID_4 = START_SEQ + 5;
+    public static final int MEAL_ID_5 = START_SEQ + 6;
+    public static final int MEAL_ID_6 = START_SEQ + 7;
+    public static final int MEAL_ID_7 = START_SEQ + 8;
+    public static final int MEAL_ID_8 = START_SEQ + 9;
+    public static final int MEAL_ID_9 = START_SEQ + 10;
+    public static final int MEAL_NOT_FOUND = START_SEQ + 100;
+    public static final Meal meal1 = new Meal(MEAL_ID_1, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500);
+    public static final Meal meal2 = new Meal(MEAL_ID_2, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000);
+    public static final Meal meal3 = new Meal(MEAL_ID_3, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500);
+    public static final Meal meal4 = new Meal(MEAL_ID_4, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100);
+    public static final Meal meal5 = new Meal(MEAL_ID_5, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000);
+    public static final Meal meal6 = new Meal(MEAL_ID_6, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500);
+    public static final Meal meal7 = new Meal(MEAL_ID_7, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410);
+    public static final Meal meal8 = new Meal(MEAL_ID_8, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500);
+    public static final Meal meal9 = new Meal(MEAL_ID_9, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410);
 
     public static Meal getNew() {
-        return new Meal(null, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "newDescription", 123);
+        return new Meal(null, LocalDateTime.of(2019, Month.FEBRUARY, 20, 12, 0), "newDescription", 123);
     }
 
-    public static Meal getUpdate() {
+    public static Meal getUpdated() {
         Meal mealUpdate = new Meal(meal1);
-        mealUpdate.setDateTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
+        mealUpdate.setDateTime(LocalDateTime.of(2021, Month.MARCH, 23, 11, 0));
         mealUpdate.setDescription("Afternoon tea");
         mealUpdate.setCalories(333);
         return mealUpdate;
     }
 
-    public static List<Meal> getBetween(){
-        List<Meal> actualMeals = Arrays.asList(meal1, meal2, meal3, meal4, meal5, meal6, meal7);
-        return Optional.of(actualMeals).orElse(Collections.emptyList()).stream()
-                .filter(meal ->
-                        Util.isBetweenHalfOpen(meal.getDateTime(), startDateTime, endDateTime))
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                .collect(Collectors.toList());
-    }
-
     public static void assertMatch(Meal actual, Meal expected) {
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected);
     }
 
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).usingRecursiveFieldByFieldElementComparatorIgnoringFields("id").isEqualTo(expected);
     }
-
 }

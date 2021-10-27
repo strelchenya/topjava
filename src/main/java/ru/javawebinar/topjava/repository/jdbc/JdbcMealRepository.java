@@ -36,6 +36,8 @@ public class JdbcMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
+        meal.setDescription((userId == 100000 ? "User: " : "Admin: ") + meal.getDescription());
+
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
                 .addValue("userId", userId)
@@ -67,7 +69,12 @@ public class JdbcMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY date_time DESC", ROW_MAPPER, userId);
+        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY date_time DESC", ROW_MAPPER, userId);
+
+        for (Meal meal : meals) {
+            meal.setDescription(meal.getDescription().replaceFirst(userId == 100000 ? "User: " : "Admin: ", ""));
+        }
+        return meals;
     }
 
     @Override

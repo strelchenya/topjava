@@ -21,7 +21,7 @@ public class MealTestData {
     public static final int MEAL_ID_7 = START_SEQ + 8;
     public static final int MEAL_ID_8 = START_SEQ + 9;
     public static final int MEAL_ID_9 = START_SEQ + 10;
-    public static final int NOT_FOUND = START_SEQ + 100;
+    public static final int NOT_FOUND = START_SEQ - 100;
     public static final Meal userMeal1 = new Meal(MEAL_ID_1, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500);
     public static final Meal userMeal2 = new Meal(MEAL_ID_2, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000);
     public static final Meal userMeal3 = new Meal(MEAL_ID_3, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500);
@@ -45,10 +45,10 @@ public class MealTestData {
     }
 
     public static void assertMatch(Meal actual, Meal expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 }

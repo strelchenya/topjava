@@ -1,5 +1,5 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6043c792e9d54c53839ee314f2fe7230)](https://www.codacy.com/gh/strelchenya/topjava/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=strelchenya/topjava&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://api.travis-ci.com/strelchenya/topjava.svg?branch=master)](https://travis-ci.com/strelchenya/topjava)
+[![Build Status](https://app.travis-ci.com/strelchenya/topjava.svg?branch=master)](https://app.travis-ci.com/strelchenya/topjava)
 
 Java Enterprise Online Project 
 ===============================

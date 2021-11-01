@@ -30,14 +30,7 @@ public class JpaMealRepository implements MealRepository {
             if (get(meal.getId(), userId) == null) {
                 return null;
             }
-            entityManager.createNamedQuery(Meal.UPDATE_MEAL)
-                    .setParameter("userId", userId)
-                    .setParameter("updateDatetime", meal.getDateTime())
-                    .setParameter("description", meal.getDescription())
-                    .setParameter("calories", meal.getCalories())
-                    .setParameter("id", meal.getId())
-                    .setParameter("user", userRef)
-                    .executeUpdate();
+            entityManager.merge(meal);
         }
         return meal;
     }
@@ -56,7 +49,8 @@ public class JpaMealRepository implements MealRepository {
         return entityManager.createNamedQuery(Meal.FIND_MEAL, Meal.class)
                 .setParameter("userId", userId)
                 .setParameter("id", id)
-                .getSingleResult();
+                .getResultStream()
+                .findAny().orElse(null);
     }
 
     @Override

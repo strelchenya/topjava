@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.jpa;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
@@ -46,11 +47,11 @@ public class JpaMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        return entityManager.createNamedQuery(Meal.FIND_MEAL, Meal.class)
+        List<Meal> meals = entityManager.createNamedQuery(Meal.FIND_MEAL, Meal.class)
                 .setParameter("userId", userId)
                 .setParameter("id", id)
-                .getResultStream()
-                .findAny().orElse(null);
+                .getResultList();
+        return DataAccessUtils.singleResult(meals);
     }
 
     @Override

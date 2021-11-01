@@ -41,6 +41,9 @@ public class MealServiceTest {
     private static StringBuilder results = new StringBuilder();
     private static final String DELIMITER = String.join("", Collections.nCopies(103, "-"));
 
+    @Autowired
+    private MealService service;
+
     @ClassRule
     public static ExternalResource report = new ExternalResource() {
 
@@ -74,9 +77,6 @@ public class MealServiceTest {
             };
         }
     };
-
-    @Autowired
-    private MealService service;
 
     @Test
     public void delete() {

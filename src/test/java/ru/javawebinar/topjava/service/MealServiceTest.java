@@ -58,7 +58,7 @@ public class MealServiceTest {
     };
 
     @Rule
-    public final TestRule wathman = new TestWatcher() {
+    public final TestRule watchman = new TestWatcher() {
         @Override
         public Statement apply(Statement base, Description description) {
             return new Statement() {

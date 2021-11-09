@@ -1,10 +1,11 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Before;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.context.ActiveProfiles;
+import ru.javawebinar.topjava.ActiveDbProfileResolver;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -15,18 +16,12 @@ import java.util.List;
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.UserTestData.*;
 
-public class UserServiceTest extends ServiceTest{
+//@ActiveProfiles(Profiles.REPOSITORY_IMPLEMENTATION)
+@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
+public abstract class UserServiceTest extends ServiceTest {
 
     @Autowired
     private UserService service;
-
-    @Autowired
-    private CacheManager cacheManager;
-
-    @Before
-    public void setup() {
-        cacheManager.getCache("users").clear();
-    }
 
     @Test
     public void create() {
@@ -45,7 +40,7 @@ public class UserServiceTest extends ServiceTest{
     }
 
     @Test
-    public void delete() {
+    public void deleteMeal() {
         service.delete(USER_ID);
         assertThrows(NotFoundException.class, () -> service.get(USER_ID));
     }

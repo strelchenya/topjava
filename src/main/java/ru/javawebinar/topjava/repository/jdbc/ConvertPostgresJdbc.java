@@ -4,14 +4,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import ru.javawebinar.topjava.Profiles;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Component
-@Profile(Profiles.HSQL_DB)
-public class HsqlDataBaseByJdbc extends JdbcDriver {
+@Profile(Profiles.POSTGRES_DB)
+public class ConvertPostgresJdbc extends ConvertLocalDateTime {
     @Override
-    public Timestamp convert(LocalDateTime localDateTime) {
-        return Timestamp.valueOf(localDateTime);
+    public LocalDateTime convert(LocalDateTime localDateTime) {
+        return localDateTime;
     }
 }

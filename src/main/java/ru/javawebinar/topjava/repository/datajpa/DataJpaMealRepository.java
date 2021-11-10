@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,6 +54,10 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal getWithUser(int id) {
-        return crudMealRepository.getWithUser(id);
+        Meal meal = crudMealRepository.getWithUser(id);
+        if (meal == null){
+            throw new NotFoundException("Not found meal!");
+        }
+        return meal;
     }
 }

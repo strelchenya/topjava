@@ -4,6 +4,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -44,6 +45,10 @@ public class DataJpaUserRepository implements UserRepository {
 
     @Override
     public User getWithMeal(int id) {
-        return crudRepository.getWithMeal(id);
+        User user = crudRepository.getWithMeal(id);
+        if (user == null){
+            throw new NotFoundException("Not found user!");
+        }
+        return user;
     }
 }

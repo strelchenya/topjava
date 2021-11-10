@@ -23,6 +23,6 @@ public interface MealRepository {
     List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId);
 
     default Meal getWithUser(int id){
-        throw new NotFoundException("Not found user!");
+        throw new UnsupportedOperationException("Not found user!");
     };
 }

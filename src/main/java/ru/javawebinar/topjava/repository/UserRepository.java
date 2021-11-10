@@ -1,7 +1,6 @@
 package ru.javawebinar.topjava.repository;
 
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -21,6 +20,6 @@ public interface UserRepository {
     List<User> getAll();
 
     default User getWithMeal(int id){
-        throw new NotFoundException("Not found meal!");
+        throw new UnsupportedOperationException("Not found meal!");
     }
 }

@@ -42,7 +42,7 @@ public class JspMealController extends MealController {
     }
 
     @PostMapping()
-    public String createOrUpdate(HttpServletRequest request, Model model) {
+    public String createOrUpdate(HttpServletRequest request) {
         String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),

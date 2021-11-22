@@ -29,14 +29,18 @@ public class JdbcUserRepository implements UserRepository {
 
     private final SimpleJdbcInsert insertUser;
 
+    private final ValidationJdbcRepository validation;
+
     @Autowired
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate,
+                              ValidationJdbcRepository validation) {
         this.insertUser = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.validation = validation;
     }
 
     @Transactional
@@ -56,6 +60,9 @@ public class JdbcUserRepository implements UserRepository {
             deleteRoles(user);
         }
         saveRoles(user);
+
+        validation.validator.validate(user);
+
         return user;
     }
 

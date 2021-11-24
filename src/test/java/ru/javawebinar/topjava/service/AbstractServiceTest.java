@@ -13,7 +13,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.ActiveDbProfileResolver;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.TimingRules;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.util.ValidationUtil.getRootCause;
@@ -47,15 +50,8 @@ public abstract class AbstractServiceTest {
         });
     }
 
-    protected boolean isJdbc() {
+    protected boolean isJdbcProfile() {
         String[] activeProfiles = environment.getActiveProfiles();
-        if (activeProfiles.length > 0) {
-            for (String profile : activeProfiles) {
-                if (profile.equalsIgnoreCase("jdbc")) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return Arrays.stream(activeProfiles).anyMatch(profile -> profile.equalsIgnoreCase(Profiles.JDBC));
     }
 }

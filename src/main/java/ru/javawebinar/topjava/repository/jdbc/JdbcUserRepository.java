@@ -13,9 +13,13 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Repository
@@ -29,23 +33,31 @@ public class JdbcUserRepository implements UserRepository {
 
     private final SimpleJdbcInsert insertUser;
 
-    private final ValidationJdbcRepository validation;
+    private ValidatorFactory validatorFactory;
+    private Validator validator;
+
+    private final UserRoleExtractor userRoleExtractor;
 
     @Autowired
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate,
-                              ValidationJdbcRepository validation) {
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, UserRoleExtractor userRoleExtractor) {
         this.insertUser = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.validation = validation;
+        this.validatorFactory = Validation.buildDefaultValidatorFactory();
+        this.validator = validatorFactory.getValidator();
+        this.userRoleExtractor = userRoleExtractor;
     }
 
     @Transactional
     @Override
     public User save(User user) {
+        if (validator.validate(user).size() > 0) {
+            return null;
+        }
+
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
 
         if (user.isNew()) {
@@ -60,20 +72,13 @@ public class JdbcUserRepository implements UserRepository {
             deleteRoles(user);
         }
         saveRoles(user);
-
-        validation.validator.validate(user);
-
         return user;
     }
 
     @Transactional
     @Override
     public boolean delete(int id) {
-        int update = jdbcTemplate.update("DELETE FROM users WHERE id=?", id);
-        if (update < 1) {
-            return Boolean.parseBoolean(null);
-        }
-        return update != 0;
+        return jdbcTemplate.update("DELETE FROM users WHERE id=?", id) != 0;
     }
 
     @Override
@@ -93,12 +98,19 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        List<User> crutch = jdbcTemplate.query("" +
+        Map<Integer, List<User>> usersMapper = jdbcTemplate.query("" +
                 "SELECT users.*, roles.role AS roles " +
                 "FROM users " +
                 "LEFT OUTER JOIN user_roles roles ON users.id=roles.user_id " +
-                "ORDER BY name, email", ROW_MAPPER);
-        return crutch.stream().map(this::getRoles).distinct().collect(Collectors.toList());
+                "ORDER BY name, email",
+                userRoleExtractor);
+
+        List<User> users = new ArrayList<>();
+        for (List<User> u : usersMapper.values()) {
+            users.addAll(u);
+        }
+//        return users.stream().map(this::getRoles).distinct().collect(Collectors.toList());
+        return users;
     }
 
     @Transactional

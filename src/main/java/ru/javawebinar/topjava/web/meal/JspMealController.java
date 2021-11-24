@@ -41,7 +41,7 @@ public class JspMealController extends MealController {
         return "mealForm";
     }
 
-    @PostMapping()
+    @PostMapping
     public String createOrUpdate(HttpServletRequest request) {
         String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),

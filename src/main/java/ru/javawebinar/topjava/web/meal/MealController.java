@@ -18,7 +18,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 public abstract class MealController {
-    protected static final Logger log = LoggerFactory.getLogger(JspMealController.class);
+    protected static final Logger log = LoggerFactory.getLogger(MealController.class);
 
     @Autowired
     private MealService service;

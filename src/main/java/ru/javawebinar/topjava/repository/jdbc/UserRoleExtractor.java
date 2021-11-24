@@ -16,6 +16,7 @@ import java.util.Set;
 
 @Component
 public class UserRoleExtractor implements ResultSetExtractor<Map<Integer, User>> {
+    private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
     @Override
     public Map<Integer, User> extractData(ResultSet rs) throws SQLException, DataAccessException {
         Map<Integer, User> data = new LinkedHashMap<>();
@@ -29,7 +30,7 @@ public class UserRoleExtractor implements ResultSetExtractor<Map<Integer, User>>
                 continue;
             }
 
-            data.put(id, BeanPropertyRowMapper.newInstance(User.class).mapRow(rs, id));
+            data.put(id, ROW_MAPPER.mapRow(rs, id));
         }
         return data;
     }

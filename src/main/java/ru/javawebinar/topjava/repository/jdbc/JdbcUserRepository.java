@@ -13,13 +13,9 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Repository
@@ -33,28 +29,26 @@ public class JdbcUserRepository implements UserRepository {
 
     private final SimpleJdbcInsert insertUser;
 
-    private ValidatorFactory validatorFactory;
-    private Validator validator;
+    private ValidatorJdbc validatorJdbc;
 
     private final UserRoleExtractor userRoleExtractor;
 
     @Autowired
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, UserRoleExtractor userRoleExtractor) {
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate,
+                              UserRoleExtractor userRoleExtractor, ValidatorJdbc validatorJdbc) {
         this.insertUser = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
-
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.validatorFactory = Validation.buildDefaultValidatorFactory();
-        this.validator = validatorFactory.getValidator();
         this.userRoleExtractor = userRoleExtractor;
+        this.validatorJdbc = validatorJdbc;
     }
 
     @Transactional
     @Override
     public User save(User user) {
-        if (validator.validate(user).size() > 0) {
+        if (validatorJdbc.validation(user)) {
             return null;
         }
 
@@ -98,19 +92,12 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        Map<Integer, List<User>> usersMapper = jdbcTemplate.query("" +
-                "SELECT users.*, roles.role AS roles " +
-                "FROM users " +
-                "LEFT OUTER JOIN user_roles roles ON users.id=roles.user_id " +
-                "ORDER BY name, email",
-                userRoleExtractor);
-
-        List<User> users = new ArrayList<>();
-        for (List<User> u : usersMapper.values()) {
-            users.addAll(u);
-        }
-//        return users.stream().map(this::getRoles).distinct().collect(Collectors.toList());
-        return users;
+        return jdbcTemplate.query("" +
+                        "SELECT users.*, roles.role AS roles " +
+                        "FROM users " +
+                        "LEFT OUTER JOIN user_roles roles ON users.id=roles.user_id " +
+                        "ORDER BY name, email",
+                userRoleExtractor).values().stream().collect(Collectors.toList());
     }
 
     @Transactional

@@ -9,11 +9,7 @@
 
 <section>
 <%--    https://stackoverflow.com/questions/2989888/get-request-url-in-jsp-which-is-forwarded-by-servlet--%>
-    <%--<c:set var="pageUrl" scope="request">
-        <c:out value="${requestScope['javax.servlet.forward.request_uri']}"/>
-    </c:set>
-    <h2>${pageUrl.endsWith('/create') ? 'Create meal' : 'Edit meal'}</h2>--%>
-    <h2><spring:message code="meal.${param.size() == 0 ? 'create' : 'edit'}"/></h2>
+    <h2><spring:message code="meal.${meal.isNew() ? 'create' : 'edit'}"/></h2>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form method="post" action="meals">
         <input type="hidden" name="id" value="${meal.id}">
@@ -29,7 +25,7 @@
             <dt><spring:message code="meal.calories"/>:</dt>
             <dd><input type="number" value="${meal.calories}" name="calories" required></dd>
         </dl>
-        <button type="submit"><spring:message code="meal.${param.size() == 0 ? 'save' : 'update'}"/></button>
+        <button type="submit"><spring:message code="meal.${meal.isNew() ? 'save' : 'update'}"/></button>
         <button onclick="window.history.back()" type="button"><spring:message code="meal.cancel"/></button>
     </form>
 </section>

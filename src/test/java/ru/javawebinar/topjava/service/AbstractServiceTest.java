@@ -52,6 +52,6 @@ public abstract class AbstractServiceTest {
 
     protected boolean isJdbcProfile() {
         String[] activeProfiles = environment.getActiveProfiles();
-        return Arrays.stream(activeProfiles).anyMatch(profile -> profile.equalsIgnoreCase(Profiles.JDBC));
+        return Arrays.stream(activeProfiles).noneMatch(profile -> profile.equalsIgnoreCase(Profiles.JDBC));
     }
 }

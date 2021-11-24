@@ -12,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,24 +27,23 @@ public class JdbcMealRepository implements MealRepository {
 
     private final SimpleJdbcInsert insertMeal;
 
-    private ValidatorFactory validatorFactory;
-    private Validator validator;
+    private ValidatorJdbc validatorJdbc;
 
-    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate,
+                              ValidatorJdbc validatorJdbc) {
         this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.validatorFactory = Validation.buildDefaultValidatorFactory();
-        this.validator = validatorFactory.getValidator();
+        this.validatorJdbc = validatorJdbc;
     }
 
     @Transactional
     @Override
     public Meal save(Meal meal, int userId) {
-        if(validator.validate(meal).size() > 0){
+        if (validatorJdbc.validation(meal)) {
             return null;
         }
 

@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = MealRestController.REST_MEAL_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealRestController extends AbstractMealController {
-    static final String REST_MEAL_URL = "/rest/users/meals";
+    static final String REST_MEAL_URL = "/rest/meals";
 
     @Override
     @GetMapping
@@ -38,7 +38,7 @@ public class MealRestController extends AbstractMealController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Meal> createMeal(@RequestBody Meal meal) {
+    public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal) {
         Meal createdMeal = super.create(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_MEAL_URL + "/{id}")
@@ -54,11 +54,11 @@ public class MealRestController extends AbstractMealController {
     }
 
     @GetMapping("/filter")
-    public List<MealTo> getBetweenMeals(
-            @RequestParam(name = "start-date", required = false, defaultValue = "0000-01-01") LocalDate startDate,
-            @RequestParam(name = "start-time", required = false, defaultValue = "00:00:00.001") LocalTime startTime,
-            @RequestParam(name = "end-date", required = false, defaultValue = "2500-01-01") LocalDate endDate,
-            @RequestParam(name = "end-time", required = false, defaultValue = "23:59:59.999") LocalTime endTime) {
+    public List<MealTo> getBetween(
+            @RequestParam(name = "start-date", required = false) LocalDate startDate,
+            @RequestParam(name = "start-time", required = false) LocalTime startTime,
+            @RequestParam(name = "end-date", required = false) LocalDate endDate,
+            @RequestParam(name = "end-time", required = false) LocalTime endTime) {
         return super.getBetween(startDate, startTime,
                 endDate, endTime);
     }

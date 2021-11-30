@@ -36,6 +36,8 @@ public class Meal extends AbstractBaseEntity {
 
     @Column(name = "date_time", nullable = false)
     @NotNull
+//    @JsonDeserialize(using = LocalDateDeserializer.class)
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)

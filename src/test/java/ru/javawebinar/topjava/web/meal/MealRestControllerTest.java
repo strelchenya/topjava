@@ -64,8 +64,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
                 .andExpect(redirectedUrl("http://localhost/rest/meals/100011"))
-                .andExpect(content().string(
-                        "{\"id\":100011,\"dateTime\":\"2020-02-01T18:00:00\",\"description\":\"Созданный ужин\",\"calories\":300,\"user\":null}"));
+                .andExpect(content().string("{\"id\":100011,\"dateTime\":\"2020-02-01T18:00:00\",\"description\":\"Созданный ужин\",\"calories\":300,\"user\":null}"));
 //        mealNew.setId(100011);
 //        MEAL_MATCHER.assertMatch(mealService.get(100011, USER_ID), mealNew);
     }
@@ -83,7 +82,8 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetween() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_MEAL_URL + "/filter").param("start-date", "2020-01-01").param("end-date", "2020-01-30")
+        perform(MockMvcRequestBuilders.get(REST_MEAL_URL + "/filter")
+                .param("start-date", "2020-01-01").param("end-date", "2020-01-30")
                 .param("start-time", "09:00").param("end-time", "15:00"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -92,7 +92,8 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetweenWithNullAndIsEmptyValues() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_MEAL_URL + "/filter").param("start-date", "").param("end-date", ""))
+        perform(MockMvcRequestBuilders.get(REST_MEAL_URL + "/filter")
+                .param("start-date", "").param("end-date", ""))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MEAL_TO_MATCHER.contentJson(mealsTo));

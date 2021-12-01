@@ -16,12 +16,9 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.MealToTestData.MEAL_TO_MATCHER;
-import static ru.javawebinar.topjava.MealToTestData.mealsTo;
+import static ru.javawebinar.topjava.MealToTestData.*;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 import static ru.javawebinar.topjava.UserTestData.user;
-import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
-import static ru.javawebinar.topjava.util.MealsUtil.getTos;
 import static ru.javawebinar.topjava.web.meal.MealRestController.REST_MEAL_URL;
 
 class MealRestControllerTest extends AbstractControllerTest {
@@ -65,8 +62,6 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
                 .andExpect(redirectedUrl("http://localhost/rest/meals/100011"))
                 .andExpect(content().string("{\"id\":100011,\"dateTime\":\"2020-02-01T18:00:00\",\"description\":\"Созданный ужин\",\"calories\":300,\"user\":null}"));
-//        mealNew.setId(100011);
-//        MEAL_MATCHER.assertMatch(mealService.get(100011, USER_ID), mealNew);
     }
 
     @Test
@@ -87,7 +82,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .param("start-time", "09:00").param("end-time", "15:00"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(List.of(meal2, meal1), DEFAULT_CALORIES_PER_DAY)));
+                .andExpect(MEAL_TO_MATCHER.contentJson(getMealsToBetween));
     }
 
     @Test
@@ -98,4 +93,14 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MEAL_TO_MATCHER.contentJson(mealsTo));
     }
+
+    /*@Test
+    void getBetweenInOneDay() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_MEAL_URL + "/filter")
+                .param("start-date", "2020-01-31").param("end-date", "2020-01-31"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MEAL_TO_MATCHER.contentJson(getMealsToBetweenWithNullAndIsEmptyValues))
+                .andExpect(MockMvcResultMatchers.status().isNotExtended());
+    }*/
 }

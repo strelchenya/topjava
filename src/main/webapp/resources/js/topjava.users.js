@@ -2,8 +2,25 @@ const userAjaxUrl = "admin/users/";
 
 // https://stackoverflow.com/a/5064235/548473
 const ctx = {
-    ajaxUrl: userAjaxUrl
+    ajaxUrl: userAjaxUrl,
+    updateTable: function () {
+        $.get(userAjaxUrl, update);
+    }
 };
+
+function enable(checkbox, id) {
+    const enabled = checkbox.is(":checked");
+    $.ajax({
+        url: userAjaxUrl + id,
+        type: "POST",
+        data: "enabled=" + enabled
+    }).done(function () {
+        checkbox.closest("tr").attr("data-user-enabled", enabled);
+        successNoty(enabled ? "Enabled" : "Disabled");
+    }).fail(function () {
+        $(checkbox).prop("checked", !enabled);
+    });
+}
 
 // $(document).ready(function () {
 $(function () {

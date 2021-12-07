@@ -17,7 +17,7 @@
         <h3 class="text-center"><spring:message code="meal.title"/></h3>
         <div class="card border-dark">
             <div class="card-body pb-0">
-                <form id="filter" method="get">
+                <form id="filter">
                     <div class="row">
                         <div class="col-2">
                             <label><spring:message code="meal.startDate"/>:</label>
@@ -67,15 +67,7 @@
             <c:forEach items="${requestScope.meals}" var="meal">
                 <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>
                 <tr id="${meal.id}" data-meal-excess="${meal.excess}">
-                    <td>
-                            <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
-                            <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
-                            <%--${fn:replace(meal.dateTime, 'T', ' ')}--%>
-                            ${fn:formatDateTime(meal.dateTime)}
-                            <%--                                <%=DateTimeUtil.toString(meal.getDateTime())%>--%>
-                            <%--                        <fmt:formatDate value="${meal.dateTime}" pattern="yyyy-MM-dd HH:mm"/>&ndash;%&gt;--%>
-                            <%--                                    <fmt:formatDate value="${meal.dateTime}" pattern="dd-MMMM-yyyy"/>--%>
-                    </td>
+                    <td>${fn:formatDateTime(meal.dateTime)}</td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
                     <td><a><span class="fa fa-pencil"></span></a></td>

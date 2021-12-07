@@ -31,7 +31,7 @@
             </thead>
             <c:forEach items="${requestScope.users}" var="user">
                 <jsp:useBean id="user" type="ru.javawebinar.topjava.model.User"/>
-                <tr id="${user.id}">
+                <tr id="${user.id}" data-user-enabled="true">
                     <td><c:out value="${user.name}"/></td>
                     <td><a href="mailto:${user.email}">${user.email}</a></td>
                     <td>${user.roles}</td>
@@ -92,5 +92,4 @@
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>
-</body>
 </html>

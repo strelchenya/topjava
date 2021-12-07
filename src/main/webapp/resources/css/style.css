@@ -1,3 +1,7 @@
+tr[data-user-enabled="false"] {
+    opacity: 0.3;
+}
+
 dl {
     background: none repeat scroll 0 0 #FAFAFA;
     margin: 8px 0;

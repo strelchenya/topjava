@@ -92,12 +92,4 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         User user = service.get(USER_ID);
         assertFalse(user.isEnabled());
     }
-
-    @Test
-    void enableIsChanged(){
-        User userExpected = service.get(USER_ID);
-        service.enable(USER_ID, false);
-        User userActual = service.get(USER_ID);
-        assertNotEquals(userExpected.isEnabled(), userActual.isEnabled());
-    }
 }

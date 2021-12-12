@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class ExceptionsUtil {
 
-    public static ResponseEntity<String> hasErrors(BindingResult result) {
+    public static ResponseEntity<String> getErrors(BindingResult result) {
         String errorFieldsMsg = result.getFieldErrors().stream()
                 .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
                 .collect(Collectors.joining("<br>"));

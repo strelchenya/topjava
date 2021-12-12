@@ -106,7 +106,7 @@ class MealRestControllerTest extends AbstractControllerTest {
     void getUnauthorizedUser() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + MEAL1_ID)
                 .with(userHttpBasic(unauthorizedUser)))
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isUnauthorized())
                 .andDo(print());
     }
 

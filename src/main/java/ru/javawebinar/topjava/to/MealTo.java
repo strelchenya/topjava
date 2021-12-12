@@ -1,38 +1,20 @@
 package ru.javawebinar.topjava.to;
 
-import org.hibernate.validator.constraints.Range;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.beans.ConstructorProperties;
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class MealTo extends BaseTo implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    @NotNull
+public class MealTo extends BaseTo {
     private LocalDateTime dateTime;
-
-    @NotBlank
-    @Size(min = 2, max = 120)
     private String description;
-
-    @Range(min = 10, max = 5000)
-    @NotNull
-    private Integer calories;
-
+    private int calories;
     private boolean excess;
 
     public MealTo() {
     }
 
     @ConstructorProperties({"id", "dateTime", "description", "calories", "excess"})
-    public MealTo(Integer id, LocalDateTime dateTime, String description, Integer calories, boolean excess) {
+    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
@@ -77,7 +59,7 @@ public class MealTo extends BaseTo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealTo mealTo = (MealTo) o;
-        return excess == mealTo.excess && Objects.equals(dateTime, mealTo.dateTime) && Objects.equals(description, mealTo.description) && Objects.equals(calories, mealTo.calories);
+        return calories == mealTo.calories && excess == mealTo.excess && Objects.equals(dateTime, mealTo.dateTime) && Objects.equals(description, mealTo.description);
     }
 
     @Override

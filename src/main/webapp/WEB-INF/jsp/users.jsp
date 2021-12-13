@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -79,5 +78,7 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
-<jsp:include page="fragments/i18n.jsp"/>
+<jsp:include page="fragments/i18n.jsp">
+    <jsp:param name="prefix" value="user"/>
+</jsp:include>
 </html>

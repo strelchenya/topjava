@@ -210,6 +210,7 @@ JSON.
 
 #### Apply 9_07_datatable_via_ajax.patch
 
+**Внимание - патч обновил, `topjava.users.js`, стр.89: `data-userEnabled` -> `data-user-enabled`**
 > - Перешли на [параметры Datatables в формате 1.10](https://datatables.net/upgrade/1.10-convert)
 > - В `makeEditable()` больше нет манипуляций c DOM, которые требуются делать ПОСЛЕ отработки плагина `datatables`, поэтому нам не обязательно вызывать ее в коллбэке `initComplete`. Отображения строки меняем в параметре конфигурации `createdRow`
 
@@ -272,7 +273,7 @@ Cоздадим собственную страницу логина по Bootst
 
 > Добавил функциональность logout
 
-- <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#ns-minimal">Минимальный form-login</a>
+- [Минимальный form-login](https://docs.spring.io/spring-security/reference/servlet/configuration/xml-namespace.html#ns-minimal)
 - <a href="https://docs.spring.io/spring-security/site/migrate/current/3-to-4/html5/migrate-3-to-4-xml.html#m3to4-xmlnamespace-form-login">Migrating &lt;form-login&gt;</a>
 
 #### ![question](https://cloud.githubusercontent.com/assets/13649199/13672858/9cd58692-e6e7-11e5-905d-c295d2a456f1.png) Мои вопросы:
@@ -290,7 +291,7 @@ Cоздадим собственную страницу логина по Bootst
 > - Сделал i18n описания приложения
 > - При нажатии кнопок `Зайти как ...` сделал вход в приложение
 
-- <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#ns-form-and-basic">Собственный form-login</a>
+- [Собственный form-login](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html#servlet-authentication-form-custom)
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 8. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFYTA4aVN4bWxzbEU">Реализация собственного провайдера авторизации.</a>
 
@@ -334,7 +335,7 @@ Cоздадим собственную страницу логина по Bootst
 > - `GrantedAuthority` это "разрешение" или "право". Если оно дается на основе роли, в Spring Security принято использовать префикс `ROLE_`. При этом сама роль не должна иметь префикс.
     >    - [Role and GrantedAuthority](https://stackoverflow.com/a/19542316/548473)
 
-- <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#userdetailsservice-implementations">UserDetailsService Implementations</a>
+- [UserDetailsService](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/user-details-service.html)
 - [serialVersionUID value](https://stackoverflow.com/a/605832/548473)
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 9.  <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFT2Qya2V4N0kzWWM">Принцип работы Spring Security. Проксирование.</a>
@@ -364,7 +365,7 @@ Cоздадим собственную страницу логина по Bootst
 - <a href="https://ru.wikibooks.org/wiki/Spring_Security/Технический_обзор_Spring_Security">Технический обзор Spring Security</a>
 - <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#aop-proxying">Типы проксирования</a>
 - <a href="http://samolisov.blogspot.ru/2010/04/proxy-java.html">Dynamic Proxy API</a>
-- <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#filter-stack">Security фильтры</a>
+- [Security фильтры](https://docs.spring.io/spring-security/reference/servlet/configuration/xml-namespace.html#filter-stack)
 - [Основы работы с Spring Security от Eugene Suleimanov](https://www.youtube.com/watch?v=7uxROJ1nduk)
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 10. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFU3hMR0o4eGNoUmc">Spring Security Test</a>
@@ -387,10 +388,10 @@ Cоздадим собственную страницу логина по Bootst
 > - Cделал "честную" аутентификацию для `RootControllerTest` (через `TestUtil#userAuth`)
 > - Cделал `mockAuthorize` для `SpringMain`, в который не попадают фильтры
 
-- <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#test">Spring Security Test</a></h3>
-- <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#test-mockmvc">Интеграция со Spring MVC Test</a>
-- <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#testing-http-basic-authentication">HttpBasic авторизация</a>
-- <a href="http://habrahabr.ru/post/171911/">Тестирование контроллеров с помощью MockMvc (без spring-security-test)</a>
+- [Spring Security Testing](https://docs.spring.io/spring-security/reference/servlet/test/index.html)
+- [Setting Up MockMvc and Spring Security](https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/setup.html)
+- [HttpBasic авторизация](https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/http-basic.html)
+- [Тестирование контроллеров в Spring Boot](https://javaops.ru/view/bootjava/lesson06#test)
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 11. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFUzNFanF6MGZGNHc">Cookie. Session.</a>
 
@@ -417,6 +418,10 @@ Security фильтров и для базовой аутентификации 
 - <a href="https://ru.wikipedia.org/wiki/HTTP_cookie">HTTP cookie</a></h3>
 - <a href="http://stackoverflow.com/questions/595872/under-what-conditions-is-a-jsessionid-created">Under what conditions is a JSESSIONID created?</a>
 - <a href="http://halyph.blogspot.ru/2014/08/how-to-disable-tomcat-session.html">Tomcat Session Serialization</a>
+
+#### Apply 9_13_fix.patch
+> - `AbstractBaseEntity.id()` уже реализовано в `HasId`
+> - В тестах сервисов базу восстанавливаем после теста (при старте приложения она популируется, если последний тест в сервисах ее меняет, тесты контроллеров могут не пройти)
 
 ### Дополнительно: ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 12. [Новое в Spring 5. Миграция проекта](https://javaops.ru/view/resources/spring5)
 
@@ -453,14 +458,14 @@ Security фильтров и для базовой аутентификации 
 ### Optional
 
 - 4: Подключить datetime-picker к фильтрам и модальному окну добавления/редактирования еды
-    - <a href="http://xdsoft.net/jqplugins/datetimepicker/">DateTimePicker jQuery plugin</a>
-    - [jQuery: конверторы](https://jquery-docs.ru/jQuery.ajax/#using-converters)
+  - <a href="http://xdsoft.net/jqplugins/datetimepicker/">DateTimePicker jQuery plugin</a>
+  - [jQuery: конверторы](https://jquery-docs.ru/jQuery.ajax/#using-converters)
 
 - Попробуйте при запросах по REST оставить стандартный ISO формат (с разделителем `T`). То есть:
-    - Отображение и редактирование еды на UI происходит без `T` (формат значений на UI можно увидеть во вкладке браузера Network)
-    - Когда мы работаем по REST, в json и запросах формат даты ISO (с разделителем `T`)
-    - Напомню, что параметры методов контроллера (в том числе собранные в объекты через Binding) парсятся конверторами спринга (`@DateTimeFormat`), а объекты json парсится Jackson и они никак не
-      влияют друг на друга.
+  - Отображение и редактирование еды на UI происходит без `T` (формат значений на UI можно увидеть во вкладке браузера Network)
+  - Когда мы работаем по REST, в json и запросах формат даты ISO (с разделителем `T`)
+  - Напомню, что параметры методов контроллера (в том числе собранные в объекты через Binding) парсятся конверторами спринга (`@DateTimeFormat`), а объекты json парсится Jackson и они никак не
+    влияют друг на друга.
 
 ## ![error](https://cloud.githubusercontent.com/assets/13649199/13672935/ef09ec1e-e6e7-11e5-9f79-d1641c05cbe6.png) Проверка в HW09
 

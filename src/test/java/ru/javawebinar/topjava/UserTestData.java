@@ -49,6 +49,17 @@ public class UserTestData {
         return updated;
     }
 
+    public static User getUpdatedInvalidValues() {
+        User updated = new User(user);
+        updated.setEmail("invalid_email");
+        updated.setName("");
+        updated.setCaloriesPerDay(99999);
+        updated.setPassword("invalid_password");
+        updated.setEnabled(false);
+        updated.setRoles(Collections.singletonList(Role.ADMIN));
+        return updated;
+    }
+
     public static String jsonWithPassword(User user, String passw) {
         return JsonUtil.writeAdditionProps(user, "password", passw);
     }

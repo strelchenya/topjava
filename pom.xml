@@ -20,6 +20,7 @@
         <spring.security.version>5.6.0</spring.security.version>
         <spring-data-jpa.version>2.6.0</spring-data-jpa.version>
         <jackson.version>2.13.0</jackson.version>
+<!--        <jackson.mapper.asl.version>1.9.13</jackson.mapper.asl.version>-->
 
         <tomcat.version>9.0.54</tomcat.version>
 
@@ -302,6 +303,11 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.codehaus.jackson</groupId>-->
+<!--            <artifactId>jackson-mapper-asl</artifactId>-->
+<!--            <version>${jackson.mapper.asl.version}</version>-->
+<!--        </dependency>-->
 
         <!--Test-->
         <dependency>

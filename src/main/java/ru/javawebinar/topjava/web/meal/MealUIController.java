@@ -26,7 +26,7 @@ public class MealUIController extends AbstractMealController {
     }
 
     @Override
-    @GetMapping( "/{id}")
+    @GetMapping("/{id}")
     public Meal get(@PathVariable int id) {
         return super.get(id);
     }
@@ -47,8 +47,10 @@ public class MealUIController extends AbstractMealController {
 
         if (meal.isNew()) {
             super.create(meal);
+        } else {
+            super.update(meal, meal.getId());
         }
-         super.update(meal, meal.getId());
+
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,12 @@ public class MealRestController extends AbstractMealController {
         if (result.hasErrors()) {
             throw new IllegalRequestDataException(ValidationUtil.getErrorString(result));
         }
-        super.update(meal, id);
+        try {
+            super.update(meal, id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException(messageSource.getMessage("exception.exist.date", null,
+                    LocaleContextHolder.getLocale()));
+        }
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -57,7 +64,13 @@ public class MealRestController extends AbstractMealController {
             return ValidationUtil.getErrorResponse(result);
         }
 
-        Meal created = super.create(meal);
+        Meal created;
+        try {
+            created = super.create(meal);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException(messageSource.getMessage("exception.exist.date", null,
+                    LocaleContextHolder.getLocale()));
+        }
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

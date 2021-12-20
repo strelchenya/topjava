@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,15 @@ public class ProfileRestController extends AbstractUserController {
         if (result.hasErrors()) {
             return ValidationUtil.getErrorResponse(result);
         }
-        User created = super.create(userTo);
+
+        User created;
+        try {
+            created = super.create(userTo);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException(messageSource.getMessage("exception.exist.email", null,
+                    LocaleContextHolder.getLocale()));
+        }
+
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL).build().toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
@@ -50,7 +60,13 @@ public class ProfileRestController extends AbstractUserController {
         if (result.hasErrors()) {
             throw new IllegalRequestDataException(ValidationUtil.getErrorString(result));
         }
-        super.update(userTo, authUserId());
+
+        try {
+            super.update(userTo, authUserId());
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException(messageSource.getMessage("exception.exist.email", null,
+                    LocaleContextHolder.getLocale()));
+        }
     }
 
     @GetMapping("/text")

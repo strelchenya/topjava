@@ -27,4 +27,5 @@
             </form:form>
         </sec:authorize>
     </div>
+    <jsp:include page="i10n.jsp"/>
 </nav>

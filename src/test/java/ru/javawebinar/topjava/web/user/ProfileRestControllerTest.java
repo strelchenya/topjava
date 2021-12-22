@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
@@ -99,7 +97,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
-    @Transactional(propagation = Propagation.NEVER)
+//    @Transactional(propagation = Propagation.NEVER)
     @Test
     void registerWithDuplicateEmail() throws Exception {
         UserTo newTo = new UserTo(null, "newName", user.getEmail(), "newPassword", 1500);
@@ -110,7 +108,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isConflict());
     }
 
-    @Transactional(propagation = Propagation.NEVER)
+//    @Transactional(propagation = Propagation.NEVER)
     @Test
     void updateIsValidWithDuplicateEmail() throws Exception {
         UserTo updatedTo = new UserTo(USER_ID, "newName", admin.getEmail(), "newPassword", 123);

@@ -1,18 +1,13 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
-import ru.javawebinar.topjava.util.ValidationUtil;
-import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -46,31 +41,13 @@ public class MealRestController extends AbstractMealController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Meal meal, BindingResult result, @PathVariable int id) {
-        if (result.hasErrors()) {
-            throw new IllegalRequestDataException(ValidationUtil.getErrorString(result));
-        }
-        try {
+    public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
             super.update(meal, id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(messageSource.getMessage("exception.exist.date", null,
-                    LocaleContextHolder.getLocale()));
-        }
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createWithLocation(@Valid @RequestBody Meal meal, BindingResult result) {
-        if (result.hasErrors()) {
-            return ValidationUtil.getErrorResponse(result);
-        }
-
-        Meal created;
-        try {
-            created = super.create(meal);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(messageSource.getMessage("exception.exist.date", null,
-                    LocaleContextHolder.getLocale()));
-        }
+    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal){
+        Meal created = super.create(meal);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

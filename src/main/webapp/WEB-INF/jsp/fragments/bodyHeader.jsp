@@ -27,5 +27,8 @@
             </form:form>
         </sec:authorize>
     </div>
-    <jsp:include page="i10n.jsp"/>
+    <jsp:include page="l10n.jsp"/>
+    <script type="text/javascript">
+        var localeCode = "${pageContext.response.locale}";
+    </script>
 </nav>

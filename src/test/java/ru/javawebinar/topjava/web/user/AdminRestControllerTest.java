@@ -53,7 +53,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(user));
+                .andExpect(USER_MATCHER.contentJson(user))
+                .andDo(print());
     }
 
     @Test
@@ -93,7 +94,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
                 .content(jsonWithPassword(updated, updated.getPassword())))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
 
         USER_MATCHER.assertMatch(userService.get(USER_ID), updated);
     }
@@ -153,12 +155,12 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
                 .content(JsonUtil.writeValue(updated)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
-    @Transactional(propagation = Propagation.NEVER)
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void updateWithDuplicateEmail() throws Exception {
         User updated = user;
         updated.setEmail(admin.getEmail());
@@ -170,8 +172,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 
-    @Transactional(propagation = Propagation.NEVER)
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void createWithDuplicateEmail() throws Exception {
         User newUser = user;
         newUser.setId(null);

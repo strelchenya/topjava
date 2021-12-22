@@ -67,6 +67,8 @@ $(function () {
             $(row).attr("data-meal-excess", data.excess);
         }
     });
+//https://ru.stackoverflow.com/a/1239879/424565
+    $.datetimepicker.setLocale(localeCode);
 
 //  http://xdsoft.net/jqplugins/datetimepicker/
     var startDate = $('#startDate');
